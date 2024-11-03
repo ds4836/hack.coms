@@ -9,27 +9,102 @@
             --third: {{ colors[2] }};
             --fourth: {{ colors[3] }};
             --fifth: {{ colors[4] }};
-
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Optima';
+            font-size: large;
+        }
+        .button-container{
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .radio-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .custom-button {
+            font-family: 'Optima';
+            align-items: center;
+            font-size: large;
+        }
+        .color-container {
+            display: flex;
+            justify-content: center;
+            text-align: center;
         }
         .color-box{
             width: 100px;
-            height: 100px;
+            height: 300px;
+            margin: 0 5px;
             display: inline-block;
-            margin: 5px;
+        }
+        .color-code{
+            margin-top: 5px;
+            font-family: 'Optima';
         }
     </style>
 </head>
 
 <body>
-    <h1>Colortool</h1>
-        <div class="color-box" style="background-color: var(--first);"></div>
-        <div class="color-box" style="background-color: var(--second);"></div>
-        <div class="color-box" style="background-color: var(--third);"></div>
-        <div class="color-box" style="background-color: var(--fourth);"></div>
-        <div class="color-box" style="background-color: var(--fifth);"></div>
+    <h1>ColorTool</h1>
+    <div class="color-container">
+        <div>
+            <div class="color-box" style="background-color: var(--first);"></div>
+            <div class="color-code" id="first-hex"></div>
+        </div>
+        <div>
+            <div class="color-box" style="background-color: var(--second);"></div>
+            <div class="color-code" id="second-hex"></div>
+        </div>
+        <div>
+            <div class="color-box" style="background-color: var(--third);"></div>
+            <div class="color-code" id="third-hex"></div>
+        </div>
+        <div>
+            <div class="color-box" style="background-color: var(--fourth);"></div>
+            <div class="color-code" id="fourth-hex"></div>
+        </div>
+        <div>
+            <div class="color-box" style="background-color: var(--fifth);"></div>
+            <div class="color-code" id="fifth-hex"></div>
+        </div>
+    </div>
 
     <form action="{{ url_for('new_colors') }}" method="get">
-        <button type="submit">Generate New Scheme</button>
+        <div class="radio-buttons">
+            <label>
+                <input type="radio" name="option" value="protan"> Protanopia
+            </label>
+            <label>
+                <input type="radio" name="option" value="deuter"> Deuteranopia
+            </label>
+            <label>
+                <input type="radio" name="option" value="tritan"> Tritanopia
+            </label>
+        </div>
+        <div class="button-container">
+            <button class='custom-button' type="submit">Generate New Scheme</button>
+        </div>
     </form>
+
+    <script>
+        function getCodes(variable){
+            return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+        }
+        window.onload = function() {
+            document.getElementById('first-hex').innerText = getCodes('--first');
+            document.getElementById('second-hex').innerText = getCodes('--second');
+            document.getElementById('third-hex').innerText = getCodes('--third');
+            document.getElementById('fourth-hex').innerText = getCodes('--fourth');
+            document.getElementById('fifth-hex').innerText = getCodes('--fifth');
+        };
+    </script>
+
 </body>
 </html>
