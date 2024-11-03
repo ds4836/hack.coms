@@ -16,9 +16,7 @@ def generate_scheme_type():
 
 def select_first_hue(max_R = MAX_R, max_G = MAX_G, max_B = MAX_B):
     random_rgb = (random.randint(0,max_R), random.randint(0, max_G), random.randint(0,max_B))
-    print("rand", random_rgb)
-    altered = change_saturation_value(random_rgb, random.randint(0,100), random.randint(0,100))
-    return altered
+    return random_rgb
 
 def generate_new_color(rgb, min_hue_change, max_hue_change, max_sat_change, max_value_change):
     altered_hue = alter_hue(rgb, min_hue_change, max_hue_change)
@@ -28,33 +26,27 @@ def generate_new_color(rgb, min_hue_change, max_hue_change, max_sat_change, max_
 def alter_hue(rgb, min_change, max_change):
     #may need to consider changes exceed range
     h, s, v = colorsys.rgb_to_hsv(rgb[0]/255, rgb[1]/255, rgb[2]/255)
-    print("h,s,v: ", h,s,v)
     dir = random.choice([-1,1])
-    
-    change = random.randrange(min_change, max_change) / 360.0
-    print("change: ", change)
+
+    change = random.uniform(min_change, max_change) / 360.0
 
     h = (h+dir*change) % 1.0
 
-    print("h: ", h)
-
     r, g, b = colorsys.hsv_to_rgb(h, s, v)
-    r = r * 255
-    g = g * 255
-    b = b * 255
-    print("alter_hue: ", r,g,b)
-    return (r,g,b)
-    
-def change_saturation_value(rgb, saturation, value):
-    h, s, v = colorsys.rgb_to_hsv(rgb[0],rgb[1],rgb[2])
-    r, g, b = colorsys.hsv_to_rgb(h, saturation, value)
+    r = int(r * 255)
+    g = int(g * 255)
+    b = int(b * 255)
     return (r,g,b)
 
 def alter_saturation_value(rgb, max_sat_change, max_value_change):
-    h, s, v = colorsys.rgb_to_hsv(rgb[0],rgb[1],rgb[2])
-    new_sat = random.randint(int(s+1), int(s+max_sat_change))
-    new_value = random.randint(int(v+1), int(v+max_value_change))
+    h, s, v = colorsys.rgb_to_hsv(rgb[0]/255,rgb[1]/255,rgb[2]/255)
+    new_sat = min(max(s + random.uniform(-max_sat_change, max_sat_change),0),1) #add direction?
+    new_value = min(max(v + random.uniform(-max_value_change, max_value_change),0),1) #add direction?
     r, g, b = colorsys.hsv_to_rgb(h, new_sat, new_value)
+    r = int(r * 255)
+    g = int(g * 255)
+    b = int(b * 255)
+    print(r,g,b)
     return (r,g,b)
 
 def calculate_complementary(rgb):

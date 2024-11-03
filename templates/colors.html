@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Color Scheme</title>
+    <style>
+        :root{
+            --first: {{ colors[0] }};
+            --second: {{ colors[1] }};
+            --third: {{ colors[2] }};
+            --fourth: {{ colors[3] }};
+            --fifth: {{ colors[4] }};
+
+        }
+        .color-box{
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Colortool</h1>
+        <div class="color-box" style="background-color: var(--first);"></div>
+        <div class="color-box" style="background-color: var(--second);"></div>
+        <div class="color-box" style="background-color: var(--third);"></div>
+        <div class="color-box" style="background-color: var(--fourth);"></div>
+        <div class="color-box" style="background-color: var(--fifth);"></div>
+
+    <form action="{{ url_for('new_colors') }}" method="get">
+        <button type="submit">Generate New Scheme</button>
+    </form>
+</body>
+</html>
